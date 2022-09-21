@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('mobileNumber');
             $table->string('address');
             $table->string('password');
-            $table->string('created_at');
-            $table->string('updated_at');
+            // $table->string('created_at');
+            // $table->string('updated_at');
             $table->rememberToken();
             $table->timestamps();
         });
