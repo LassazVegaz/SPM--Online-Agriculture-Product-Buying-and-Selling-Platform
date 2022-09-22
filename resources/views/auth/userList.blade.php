@@ -69,9 +69,17 @@
         @endif
 
         @if(Session::get("fail"))
-        <div class="alert alert-success">
+        <div class="alert alert-danger">
             {{ Session::get("fail") }}
         </div>
+        @endif
+
+        @if(Session::get("errors"))
+        @foreach ($errors as $error)
+        <div class="alert alert-danger">
+            {{ $error }}
+        </div>
+        @endforeach
         @endif
 
         <br>
