@@ -63,23 +63,25 @@
 
     <div class="main">
         @if(Session::get("success"))
-        <div class="alert alert-success">
+        <div class="alert alert-success fade show">
             {{ Session::get("success") }}
         </div>
         @endif
 
         @if(Session::get("fail"))
-        <div class="alert alert-danger">
+        <div class="alert alert-warning alert-danger fade show">
             {{ Session::get("fail") }}
         </div>
         @endif
 
-        @if(Session::get("errors"))
-        @foreach ($errors as $error)
-        <div class="alert alert-danger">
-            {{ $error }}
+        @if(count($errors) > 0)
+        <div class="p-1">
+            @foreach($errors->all() as $error)
+            <div class="alert alert-warning alert-danger fade show">
+                {{$error}}
+            </div>
+            @endforeach
         </div>
-        @endforeach
         @endif
 
         <br>
@@ -91,7 +93,7 @@
             <div class="form-popup" id="myForm">
                 <form action="{{ route('auth.save') }}" class="form-container" method="POST">
                     @csrf
-                    <button class="ibtn6" onclick="closeForm()"><i class="fa fa-window-close" aria-hidden="true"></i></button><br>
+                    <button type="button" class="ibtn6" onclick="closeForm()"><i class="fa fa-window-close" aria-hidden="true"></i></button><br>
                     <input type="text" class="form-control" name="username" placeholder="Username" value="{{ old('username') }}" required>
                     <input type="text" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}" required>
                     <input type="integer" class="form-control" name="mobileNumber" placeholder="Mobile Number" value="{{ old('mobileNumber') }}" required>
@@ -107,7 +109,7 @@
             <div class="form-popup" id="update-form">
                 <form action="{{ route('auth.update') }}" class="form-container" method="POST">
                     @csrf
-                    <button class="ibtn6" onclick="closeUpdateForm()"><i class="fa fa-window-close" aria-hidden="true"></i></button><br>
+                    <button type="button" class="ibtn6" onclick="closeUpdateForm()"><i class="fa fa-window-close" aria-hidden="true"></i></button><br>
                     <input type="text" name="id" id="update-user-id" hidden />
                     <input type="text" class="form-control" name="username" placeholder="Username" required />
                     <input type="text" class="form-control" name="email" placeholder="Email" required />
@@ -140,10 +142,10 @@
                         <td>
                             <button class="ibtn2" onclick="openUpdateForm('{{ $user->id }}')"><i class="fa fa-pencil-square-o"></i></button>
 
-                            <button class="ibtn3" onclick="document.getElementById('id01').style.display='block'"><i class="fa fa-trash"></i></button>
-                            <div id="id01" class="modal">
-                                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                                <form class="modal-content" action="{{-- {{ route('auth.delete') }} --}}">
+                            <button class="ibtn3" onclick="document.getElementById('df-id{{ $user->id }}').style.display='block'"><i class="fa fa-trash"></i></button>
+                            <div id="df-id{{ $user->id }}" class="modal">
+                                <span onclick="document.getElementById('df-id{{ $user->id }}').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                <form class="modal-content" action="{{ route('auth.delete', $user->id) }}">
                                     <div class="container">
                                         <h1>Delete Account</h1>
                                         <p>Are you sure you want to delete this account?</p>

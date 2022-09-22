@@ -219,7 +219,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::find($user_id)->delete();
+        User::find($id)->delete();
         return redirect()->route('auth.userList')
             ->with(['status' => 'success', 'msg' => 'User Deleted successfully']);
     }
