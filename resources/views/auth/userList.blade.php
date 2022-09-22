@@ -62,6 +62,18 @@
     @yield('content')
 
     <div class="main">
+        @if(Session::get("success"))
+        <div class="alert alert-success">
+            {{ Session::get("success") }}
+        </div>
+        @endif
+
+        @if(Session::get("fail"))
+        <div class="alert alert-success">
+            {{ Session::get("fail") }}
+        </div>
+        @endif
+
         <br>
         <h1> &nbsp;&nbsp; User List </h1>
         <br>
@@ -70,18 +82,6 @@
             <button class="ibtn4" onclick="openForm()"><i class="fa fa-user-plus"></i></button>
             <div class="form-popup" id="myForm">
                 <form action="{{ route('auth.save') }}" class="form-container" method="POST">
-                    @if(Session::get("success"))
-                    <div class="alert alert-success">
-                        {{ Session::get("success") }}
-                    </div>
-                    @endif
-
-                    @if(Session::get("fail"))
-                    <div class="alert alert-success">
-                        {{ Session::get("fail") }}
-                    </div>
-                    @endif
-
                     @csrf
                     <button class="ibtn6" onclick="closeForm()"><i class="fa fa-window-close" aria-hidden="true"></i></button><br>
                     <input type="text" class="form-control" name="username" placeholder="Username" value="{{ old('username') }}" required>
@@ -94,6 +94,21 @@
             </div>
             <button class="ibtn5"><i class="fa fa-download"></i></button>
             <br>
+
+            <!-- Update Form -->
+            <div class="form-popup" id="update-form">
+                <form action="{{ route('auth.update') }}" class="form-container" method="POST">
+                    @csrf
+                    <button class="ibtn6" onclick="closeUpdateForm()"><i class="fa fa-window-close" aria-hidden="true"></i></button><br>
+                    <input type="text" name="id" id="update-user-id" hidden />
+                    <input type="text" class="form-control" name="username" placeholder="Username" required />
+                    <input type="text" class="form-control" name="email" placeholder="Email" required />
+                    <input type="integer" class="form-control" name="mobileNumber" placeholder="Mobile Number" required />
+                    <input type="text" class="form-control" name="address" placeholder="Address" required />
+                    <input type="password" class="form-control" name="password" placeholder="Password" required />
+                    <button type="submit" class="btn">Update</button>
+                </form>
+            </div>
 
             <table class="styled-table" id="userTable">
                 <thead>
@@ -115,7 +130,7 @@
                         <td>{{ $user->mobileNumber }}</td>
                         <td>{{ $user->address }}</td>
                         <td>
-                            <button class="ibtn2" onclick="editForm()"><i class="fa fa-pencil-square-o"></i></button>
+                            <button class="ibtn2" onclick="openUpdateForm('{{ $user->id }}')"><i class="fa fa-pencil-square-o"></i></button>
 
                             <button class="ibtn3" onclick="document.getElementById('id01').style.display='block'"><i class="fa fa-trash"></i></button>
                             <div id="id01" class="modal">
@@ -230,12 +245,15 @@
 </script>
 
 <script>
-    function editForm() {
-        document.getElementById("myForm").style.display = "block";
+    const updateForm = document.getElementById("update-form");
+
+    function openUpdateForm(id) {
+        document.getElementById("update-user-id").setAttribute("value", id);
+        updateForm.style.display = "block";
     }
 
-    function closeForm() {
-        document.getElementById("myForm").style.display = "none";
+    function closeUpdateForm() {
+        updateForm.style.display = "none";
     }
 </script>
 
