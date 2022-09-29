@@ -123,11 +123,15 @@ class UserController extends Controller
         $action_link = route('auth.resetPassword', ['token' => $token, 'email' => $request->email]);
         $body = "We are received a request to reset the password for <b>AgriProduct</b> account associated with " . $request->email . ". You can reset your password by clicking the link below";
 
-        \Mail::send('auth.emailForget', ['action_link' => $action_link, 'body' => $body], function ($message) use ($request) {
-            $message->from('agriproduct123@gmail.com', 'Agri Product');
-            $message->to($request->email, 'username')
-                ->subject('Reset Password');
-        });
+        \Mail::send(
+            'auth.emailForget',
+            ['action_link' => $action_link, 'body' => $body],
+            function ($message) use ($request) {
+                $message->from('lasindunuwanga10@gmail.com', 'Agri Product');
+                $message->to($request->email)
+                    ->subject('Reset Password');
+            }
+        );
 
         return back()->with('success', 'We have e-mailed your password reset link.');
     }
