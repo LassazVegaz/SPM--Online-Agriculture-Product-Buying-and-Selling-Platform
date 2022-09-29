@@ -110,11 +110,11 @@
                 <form action="{{ route('auth.update') }}" class="form-container" method="POST">
                     @csrf
                     <button type="button" class="ibtn6" onclick="closeUpdateForm()"><i class="fa fa-window-close" aria-hidden="true"></i></button><br>
-                    <input type="text" name="id" id="update-user-id" hidden />
-                    <input type="text" class="form-control" name="username" placeholder="Username" required />
-                    <input type="text" class="form-control" name="email" placeholder="Email" required />
-                    <input type="integer" class="form-control" name="mobileNumber" placeholder="Mobile Number" required />
-                    <input type="text" class="form-control" name="address" placeholder="Address" required />
+                    <input type="text" name="id" id="uu-id" hidden />
+                    <input type="text" id="uu-username" class="form-control" name="username" placeholder="Username" required />
+                    <input type="text" id="uu-email" class="form-control" name="email" placeholder="Email" required />
+                    <input type="integer" id="uu-mobileNumber" class="form-control" name="mobileNumber" placeholder="Mobile Number" required />
+                    <input type="text" id="uu-address" class="form-control" name="address" placeholder="Address" required />
                     <input type="password" class="form-control" name="password" placeholder="Password" required />
                     <button type="submit" class="btn">Update</button>
                 </form>
@@ -135,10 +135,10 @@
                 <tbody>
                     <tr>
                         <td>{{ $user->id }}</td>
-                        <td>{{ $user->username }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->mobileNumber }}</td>
-                        <td>{{ $user->address }}</td>
+                        <td id="ud-{{$user->id}}-username">{{ $user->username }}</td>
+                        <td id="ud-{{$user->id}}-email">{{ $user->email }}</td>
+                        <td id="ud-{{$user->id}}-mobileNumber">{{ $user->mobileNumber }}</td>
+                        <td id="ud-{{$user->id}}-address">{{ $user->address }}</td>
                         <td>
                             <button class="ibtn2" onclick="openUpdateForm('{{ $user->id }}')"><i class="fa fa-pencil-square-o"></i></button>
 
@@ -258,7 +258,11 @@
     const updateForm = document.getElementById("update-form");
 
     function openUpdateForm(id) {
-        document.getElementById("update-user-id").setAttribute("value", id);
+        $("#uu-id").val(id);
+        $("#uu-username").val($(`#ud-${id}-username`).text());
+        $("#uu-email").val($(`#ud-${id}-email`).text());
+        $("#uu-address").val($(`#ud-${id}-address`).text());
+        $("#uu-mobileNumber").val($(`#ud-${id}-mobileNumber`).text());
         updateForm.style.display = "block";
     }
 
